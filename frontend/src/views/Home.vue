@@ -1,18 +1,39 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld :msg="msg"/>
+    <v-btn @click="getMessage">
+      Call server
+    </v-btn>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
+import axios from 'axios'
 import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'Home',
   components: {
     HelloWorld
+  },
+  data () {
+    return {
+      msg: ''
+    }
+  },
+  methods: {
+    getMessage () {
+      const path = 'http://localhost:5000/api'
+      axios.get(path)
+        .then((res) => {
+          this.msg = res.data
+        })
+        .catch((error) => {
+          console.log(error)
+          // eslint-disable-next-line
+        })
+    }
   }
 }
 </script>
